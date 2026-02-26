@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HANDELATOR | V- 1.16</title>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
@@ -35,29 +34,29 @@
             flex-direction: column; 
         }
 
-        /* Responsive Title */
         .brand-title {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 30px;
+            left: 30px;
             font-weight: 200;
-            letter-spacing: 5px;
+            letter-spacing: 10px;
             margin: 0;
             z-index: 1001;
             background: none;
             border: none;
             color: #fff;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 2rem;
             transition: opacity 0.3s ease;
         }
 
-        @media (min-width: 768px) {
+        /* Mobile Adjustments for Title */
+        @media (max-width: 768px) {
             .brand-title {
-                top: 30px;
-                left: 30px;
-                font-size: 2rem;
-                letter-spacing: 10px;
+                font-size: 1.2rem;
+                letter-spacing: 5px;
+                top: 20px;
+                left: 20px;
             }
         }
 
@@ -86,6 +85,14 @@
             transform: translate(-50%, -50%) scale(1.3);
         }
 
+        /* Portrait/Mobile Video Fix */
+        @media (max-width: 768px) and (orientation: portrait) {
+            #bg-video-wrapper iframe {
+                width: 300vw; /* Stretch to cover mobile portrait */
+                height: 100vh;
+            }
+        }
+
         #setup-screen {
             position: fixed;
             top: 0;
@@ -97,8 +104,6 @@
             align-items: center;
             justify-content: center;
             z-index: 10;
-            padding: 20px;
-            box-sizing: border-box;
         }
 
         .scroll-section {
@@ -109,7 +114,7 @@
             min-height: 100vh;
             background: var(--ethena-dark);
             z-index: 20;
-            padding: 60px 20px;
+            padding: 100px 20px;
             box-sizing: border-box;
             border-top: 1px solid var(--ethena-border);
             display: flex;
@@ -120,19 +125,15 @@
         /* Social Icons & Preview Logic */
         .social-container {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            gap: 30px;
             margin-top: 40px;
             position: relative;
-            width: 100%;
-            align-items: center;
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 600px) {
             .social-container {
-                flex-direction: row;
-                justify-content: center;
-                gap: 30px;
+                flex-direction: column;
+                gap: 15px;
             }
         }
 
@@ -143,16 +144,13 @@
             letter-spacing: 2px;
             padding: 15px 25px;
             border: 1px solid var(--ethena-border);
-            border-radius: 18px; /* Squircle */
+            border-radius: 15px; 
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 10px;
             background: rgba(255, 255, 255, 0.02);
             position: relative;
-            width: 80%;
-            max-width: 250px;
-            justify-content: center;
         }
 
         .social-link:hover {
@@ -162,9 +160,8 @@
             color: var(--ethena-neon);
         }
 
-        /* Mobile Preview Window - Hidden on small mobile for better UX */
+        /* Mobile Preview Window */
         .mobile-preview {
-            display: none;
             position: absolute;
             bottom: 120%;
             left: 50%;
@@ -182,13 +179,14 @@
             z-index: 100;
         }
 
-        @media (min-width: 1024px) {
-            .mobile-preview { display: block; }
-            .social-link:hover .mobile-preview {
-                opacity: 1;
-                transform: translateX(-50%) scale(1);
-                bottom: 130%;
-            }
+        @media (max-width: 768px) {
+            .mobile-preview { display: none; } /* Hide previews on mobile for performance */
+        }
+
+        .social-link:hover .mobile-preview {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            bottom: 130%;
         }
 
         .mobile-preview iframe {
@@ -211,7 +209,7 @@
             width: 100vw; 
             height: 100vh; 
             display: none; 
-            background: #000;
+            background: transparent;
             overflow: hidden;
             z-index: 50;
         }
@@ -223,7 +221,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 100%);
+            background: rgba(0, 0, 0, 0.35); 
             pointer-events: none;
             z-index: 5;
         }
@@ -233,75 +231,81 @@
             height: 100%; 
             object-fit: cover; 
             transform: scaleX(-1); 
-            filter: brightness(1.1) contrast(1.2); 
+            filter: brightness(1.2) contrast(1.3) saturate(1.1); 
+            opacity: 1; 
         }
         
         .ui-panel { 
             position: absolute; 
-            top: 20px; 
-            right: 20px; 
-            left: 20px; /* Centered on mobile */
+            top: 30px; 
+            right: 30px; 
             z-index: 100; 
-            background: rgba(10, 10, 10, 0.7); 
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 20px; 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(25px) saturate(150%);
+            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            padding: 25px; 
             border: 1px solid var(--ethena-border); 
-            border-radius: 22px; 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            border-radius: 28px; 
+            min-width: 280px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             .ui-panel {
-                top: 30px;
-                right: 30px;
-                left: auto;
-                width: 320px;
+                top: 80px;
+                left: 20px;
+                right: 20px;
+                min-width: auto;
+                padding: 15px;
             }
         }
 
         .calc-display {
-            background: rgba(0, 0, 0, 0.5); 
+            background: rgba(0, 0, 0, 0.3); 
             color: var(--ethena-neon); 
-            padding: 15px;
-            border-radius: 15px; 
-            margin-top: 10px; 
-            font-size: 1.5rem;
+            padding: 20px;
+            border-radius: 18px; 
+            margin-top: 15px; 
+            font-size: 1.8rem;
             text-align: right; 
             border: 1px solid var(--ethena-border); 
-            min-height: 40px;
-            word-wrap: break-word;
+            min-height: 50px;
+            text-shadow: 0 0 10px rgba(0, 255, 189, 0.3);
         }
 
         .status-bar { 
-            font-size: 0.7rem; 
+            font-size: 0.75rem; 
             color: var(--ethena-neon); 
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 5px; 
+            margin-bottom: 8px; 
+            opacity: 0.9; 
         }
 
         .squircle-btn { 
-            padding: 15px 30px; 
+            padding: 18px 45px; 
             background: #fff; 
             color: #000; 
             border: none; 
-            border-radius: 18px; 
+            border-radius: 20px; 
             font-weight: 600; 
             cursor: pointer; 
-            font-size: 0.9rem; 
+            font-size: 1rem; 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin: 10px;
-            width: 100%;
-            max-width: 280px;
+            margin: 12px;
+            width: 280px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
+        @media (max-width: 400px) {
+            .squircle-btn { width: 85%; padding: 15px 20px; }
+        }
+
         .squircle-btn:hover { 
-            transform: translateY(-5px); 
+            transform: translateY(-5px) scale(1.02); 
             background: var(--ethena-neon); 
-            box-shadow: 0 0 30px rgba(0, 255, 189, 0.4);
+            box-shadow: 0 0 40px rgba(0, 255, 189, 0.4);
         }
 
         .secondary-btn {
@@ -309,12 +313,13 @@
             backdrop-filter: blur(10px);
             color: #fff;
             border: 1px solid var(--ethena-border);
+            box-shadow: none;
         }
 
         .footer-credit {
-            margin-top: 40px;
-            font-size: 0.65rem;
-            letter-spacing: 2px;
+            margin-top: 50px;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
             opacity: 0.6;
             text-align: center;
             color: var(--ethena-neon);
@@ -326,32 +331,30 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(5, 5, 5, 0.95); 
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
             border: 1px solid var(--ethena-border);
-            border-radius: 25px;
-            padding: 20px;
+            border-radius: 35px;
+            padding: 30px;
             z-index: 2000;
-            width: 85%;
-            max-width: 800px;
+            width: 90%;
+            max-width: 850px;
             color: #fff;
-            max-height: 80vh;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            max-height: 85vh;
             overflow-y: auto;
         }
 
         .gesture-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
 
-        @media (min-width: 600px) {
-            .gesture-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-
         .gesture-card {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.05);
             padding: 10px;
             border-radius: 15px;
             text-align: center;
@@ -361,38 +364,55 @@
         .hand-sim {
             display: flex;
             justify-content: center;
-            gap: 3px;
-            margin-bottom: 5px;
-            height: 20px;
+            gap: 4px;
+            margin-bottom: 8px;
+            height: 30px;
             align-items: flex-end;
         }
 
-        .finger { width: 6px; border-radius: 3px 3px 0 0; }
-        .f-on { background: var(--finger-on); box-shadow: 0 0 5px var(--finger-on); height: 20px; }
-        .f-off { background: var(--finger-off); height: 8px; opacity: 0.2; }
+        .finger {
+            width: 8px;
+            border-radius: 4px 4px 0 0;
+        }
 
-        .gesture-label { font-size: 0.75rem; font-weight: bold; color: var(--ethena-neon); }
-        .hand-side { font-size: 0.55rem; opacity: 0.5; text-transform: uppercase; }
+        .f-on { background: var(--finger-on); box-shadow: 0 0 8px var(--finger-on); height: 25px; }
+        .f-off { background: var(--finger-off); height: 12px; opacity: 0.3; }
 
-        #gesture-hint { font-size: 0.75rem; margin-top: 10px; color: #aaa; }
-        .progress-bar { height: 3px; background: var(--ethena-neon); width: 0%; transition: width 0.1s; margin-top: 8px; }
+        .gesture-label { font-size: 0.8rem; font-weight: bold; color: var(--ethena-neon); }
+        .hand-side { font-size: 0.6rem; opacity: 0.5; text-transform: uppercase; margin-top: 4px; }
+
+        #gesture-hint { font-size: 0.85rem; margin-top: 12px; color: #aaa; }
+        .progress-bar { height: 3px; background: var(--ethena-neon); width: 0%; transition: width 0.1s; margin-top: 8px; box-shadow: 0 0 10px var(--ethena-neon); }
         
         .close-btn { 
             color: #ff4b4b; 
             cursor: pointer; 
             float: right; 
-            font-size: 1.5rem;
-            padding: 5px;
+            font-size: 1.5rem; 
+            font-weight: bold;
+            transition: transform 0.3s ease, color 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.2);
+            color: #fff;
+            background: rgba(255, 75, 75, 0.2);
         }
         
-        hr { border: 0; border-top: 1px solid var(--ethena-border); margin: 20px 0; width: 100%; }
+        hr { border: 0; border-top: 1px solid var(--ethena-border); margin: 20px 0; width: 100%; max-width: 500px; }
 
         .scroll-hint {
             position: absolute;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.6rem;
+            font-size: 0.7rem;
             letter-spacing: 2px;
             color: var(--ethena-neon);
             animation: bounce 2s infinite;
@@ -420,14 +440,14 @@
     </div>
 
     <div class="scroll-section" id="bottom-scroll">
-        <h2 style="letter-spacing: 5px; color: var(--ethena-neon); font-size: 1.5rem;">MISSION</h2>
-        <p style="max-width: 600px; text-align: center; line-height: 1.6; opacity: 0.8; font-size: 0.9rem;">
+        <h2 style="letter-spacing: 5px; color: var(--ethena-neon);">MISSION</h2>
+        <p style="max-width: 600px; text-align: center; line-height: 1.6; opacity: 0.8;">
             Handelator uses advanced computer vision to bridge the gap between physical motion and digital calculation. By mapping bio-signatures to mathematical operators, we redefine human-computer interaction.
         </p>
         
         <hr>
 
-        <h3 style="letter-spacing: 3px; font-weight: 300; margin-top: 30px; font-size: 1rem;">CONNECT WITH US</h3>
+        <h3 style="letter-spacing: 3px; font-weight: 300; margin-top: 30px;">CONNECT WITH US</h3>
         
         <div class="social-container">
             <a href="https://www.instagram.com/editz_malakar/" target="_blank" class="social-link">
@@ -446,7 +466,7 @@
 
     <div id="instruction-overlay">
         <span class="close-btn" onclick="toggleInstructions(false)">×</span>
-        <h3 style="letter-spacing: 2px; text-align: center; font-size: 1rem;">HOW TO USE GESTURES</h3>
+        <h3 style="letter-spacing: 2px; text-align: center;">HOW to use GESTURES</h3>
         <div class="gesture-grid">
             <div class="gesture-card"><div class="hand-sim"><div class="finger f-off"></div><div class="finger f-off"></div><div class="finger f-off"></div><div class="finger f-off"></div><div class="finger f-off"></div></div><div class="gesture-label">"0"</div><div class="hand-side">Right</div></div>
             <div class="gesture-card"><div class="hand-sim"><div class="finger f-off"></div><div class="finger f-on"></div><div class="finger f-off"></div><div class="finger f-off"></div><div class="finger f-off"></div></div><div class="gesture-label">"1"</div><div class="hand-side">Right</div></div>
@@ -465,13 +485,13 @@
             <div class="gesture-card"><div class="hand-sim"><div class="finger f-on"></div><div class="finger f-on"></div><div class="finger f-on"></div><div class="finger f-on"></div><div class="finger f-on"></div></div><div class="gesture-label">"CLEAR"</div><div class="hand-side">Left</div></div>
             <div class="gesture-card"><div class="hand-sim"><div class="finger f-on"></div><div class="finger f-off"></div><div class="finger f-off"></div><div class="finger f-off"></div><div class="finger f-off"></div></div><div class="gesture-label">"DEL"</div><div class="hand-side">Left</div></div>
             <div class="gesture-card"><div class="hand-sim"><div class="finger f-off"></div><div class="finger f-off"></div><div class="finger f-off"></div><div class="finger f-off"></div><div class="finger f-off"></div></div><div class="gesture-label">"."</div><div class="hand-side">Left</div></div>
-            <div class="gesture-card" style="grid-column: span 2; border-color: var(--ethena-neon);"><div class="gesture-label">"="</div><div class="hand-side">Both Hands (Open)</div></div>
+            <div class="gesture-card" style="grid-column: span 3; border-color: var(--ethena-neon);"><div class="gesture-label" style="font-size: 1rem;">"="</div><div class="hand-side">Both Hands (Open Palms)</div></div>
         </div>
     </div>
 
     <div id="video-container">
         <div class="ui-panel">
-            <div class="status-bar">Antroverce | V- 0.1(Beta)</div>
+            <div class="status-bar">Calculator Screen</div>
             <div id="calc-history" style="font-size: 0.7rem; color: #555; text-align: right;">0</div>
             <div class="calc-display" id="display">0</div>
             <div id="gesture-hint">Scanning for bio-signatures...</div>
@@ -490,11 +510,16 @@
         var player;
         let cameraInstance = null;
 
+        // Detection if mobile to swap video
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
         function onYouTubeIframeAPIReady() {
+            const vidId = isMobile ? '7aKsPwH1iss' : 'mLwlGsRhNIU';
+            
             player = new YT.Player('player', {
-                videoId: 'mLwlGsRhNIU',
+                videoId: vidId,
                 playerVars: {
-                    'autoplay': 1, 'controls': 0, 'loop': 1, 'playlist': 'mLwlGsRhNIU',
+                    'autoplay': 1, 'controls': 0, 'loop': 1, 'playlist': vidId,
                     'mute': 1, 'vq': 'hd1080', 'modestbranding': 1, 'showinfo': 0, 'rel': 0,
                     'iv_load_policy': 3, 'disablekb': 1
                 },
@@ -601,6 +626,7 @@
 
         function onResults(results) {
             canvasCtx.save();
+            canvasCtx.imageSmoothingEnabled = !isMobile; // Disable smoothing on mobile for FPS boost
             canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
             canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
 
@@ -626,12 +652,12 @@
                 results.multiHandLandmarks.forEach((landmarks, index) => {
                     const label = results.multiHandedness[index].label;
                     const fingerState = getFingers(landmarks, label === 'Right');
-                    drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: 'rgba(255,255,255,0.6)', lineWidth: 2});
+                    drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: 'rgba(255,255,255,0.8)', lineWidth: isMobile ? 2 : 3});
                     const groups = [{ name: 'thumb', ids: [1, 2, 3, 4] },{ name: 'index', ids: [5, 6, 7, 8] },{ name: 'middle', ids: [9, 10, 11, 12] },{ name: 'ring', ids: [13, 14, 15, 16] },{ name: 'little', ids: [17, 18, 19, 20] }];
-                    drawLandmarks(canvasCtx, [landmarks[0]], {color: '#00FFBD', radius: 4});
+                    drawLandmarks(canvasCtx, [landmarks[0]], {color: '#00FFBD', radius: isMobile ? 3 : 5});
                     groups.forEach(group => {
                         const color = (detected && fingerState[group.name]) ? '#00FFBD' : '#FF4B4B';
-                        drawLandmarks(canvasCtx, group.ids.map(id => landmarks[id]), {color: color, radius: 2});
+                        drawLandmarks(canvasCtx, group.ids.map(id => landmarks[id]), {color: color, radius: isMobile ? 2 : 4});
                     });
                 });
             }
@@ -640,31 +666,28 @@
 
         const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
         hands.setOptions({ 
-            maxNumHands: 2, 
-            modelComplexity: 1, 
-            minDetectionConfidence: 0.75, 
-            minTrackingConfidence: 0.75 
+            maxNumHands: isMobile ? 1 : 2, // Limit to 1 hand on mobile for speed
+            modelComplexity: isMobile ? 0 : 1, // Use lite model for mobile
+            minDetectionConfidence: 0.8, 
+            minTrackingConfidence: 0.8 
         });
         hands.onResults(onResults);
 
         async function initializeSystem() {
             document.body.style.overflow = "hidden";
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            }
             if (player && player.stopVideo) { player.stopVideo(); document.getElementById('bg-video-wrapper').style.display = 'none'; }
             document.getElementById('setup-screen').style.display = 'none';
             document.getElementById('bottom-scroll').style.display = 'none';
             document.getElementById('video-container').style.display = 'block';
-            
             speak("Initialized");
 
-            // Optimized High Quality Camera Constraints
-            const constraints = {
-                video: {
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 },
-                    facingMode: "user",
-                    frameRate: { ideal: 30 }
-                }
-            };
+            // Optimized constraints for Mobile (Lower resolution for higher FPS)
+            const mobileConstraints = { width: 640, height: 480 };
+            const pcConstraints = { width: 1280, height: 720 };
+            const activeConstraints = isMobile ? mobileConstraints : pcConstraints;
 
             cameraInstance = new Camera(videoElement, {
                 onFrame: async () => {
@@ -674,7 +697,7 @@
                     }
                     await hands.send({image: videoElement});
                 },
-                ...constraints.video
+                ...activeConstraints
             });
             cameraInstance.start();
         }
@@ -686,6 +709,9 @@
             if (cameraInstance) {
                 cameraInstance.stop();
                 cameraInstance = null;
+            }
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
             }
             document.getElementById('video-container').style.display = 'none';
             document.getElementById('setup-screen').style.display = 'flex';
