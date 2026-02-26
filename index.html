@@ -77,13 +77,27 @@
             filter: contrast(150%) brightness(0.6) saturate(0.2) sepia(0.2);
         }
 
+        /* Responsive Background Video */
         #bg-video-wrapper iframe {
             position: absolute;
             top: 50%;
             left: 50%;
             width: 100vw;
             height: 100vh;
-            transform: translate(-50%, -50%) scale(1.3);
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        @media (max-aspect-ratio: 16/9) {
+            #bg-video-wrapper iframe {
+                width: 300vh; /* Ensure coverage on tall screens (mobile) */
+            }
+        }
+
+        @media (min-aspect-ratio: 16/9) {
+            #bg-video-wrapper iframe {
+                height: 300vw; /* Ensure coverage on wide screens */
+            }
         }
 
         #setup-screen {
@@ -162,7 +176,7 @@
             color: var(--ethena-neon);
         }
 
-        /* Mobile Preview Window - Hidden on small mobile for better UX */
+        /* Mobile Preview Window */
         .mobile-preview {
             display: none;
             position: absolute;
@@ -240,7 +254,7 @@
             position: absolute; 
             top: 20px; 
             right: 20px; 
-            left: 20px; /* Centered on mobile */
+            left: 20px; 
             z-index: 100; 
             background: rgba(10, 10, 10, 0.7); 
             backdrop-filter: blur(20px);
@@ -471,7 +485,7 @@
 
     <div id="video-container">
         <div class="ui-panel">
-            <div class="status-bar">Antroverce | V- 0.1(Beta)</div>
+            <div class="status-bar">Calculator</div>
             <div id="calc-history" style="font-size: 0.7rem; color: #555; text-align: right;">0</div>
             <div class="calc-display" id="display">0</div>
             <div id="gesture-hint">Scanning for bio-signatures...</div>
@@ -656,7 +670,6 @@
             
             speak("Initialized");
 
-            // Optimized High Quality Camera Constraints
             const constraints = {
                 video: {
                     width: { ideal: 1920 },
